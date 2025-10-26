@@ -264,12 +264,44 @@
           Want to see more? Reach out — I’m always open to sharing more projects.
         </p>
 </section>
-<section class="text-center scroll-mt-20" id="contact">
+<section class="scroll-mt-20 text-center" id="contact">
 <h2 class="text-3xl font-bold mb-4">Get In Touch</h2>
-<p class="max-w-xl mx-auto text-subtext-dark leading-relaxed">
-          I'm currently open to new opportunities and collaborations. If you'd like to connect or discuss a project, feel free to reach out.
-        </p>
-<a class="ripple-btn inline-block mt-8 bg-primary text-white font-medium py-3 px-6 rounded-lg shadow-lg shadow-indigo-500/20 hover:bg-indigo-700 transition-all duration-300 relative overflow-hidden isolate" href="mailto:joseralpharrojo789@gmail.com">Send an Email</a>
+<p class="mx-auto max-w-xl text-subtext-dark leading-relaxed"> I'm currently open to new opportunities and collaborations. If you'd like to connect or discuss a project, feel free to reach out. </p>
+<form class="mx-auto mt-10 max-w-xl text-left" id="contactForm" method="POST" novalidate="">
+<div class="grid grid-cols-1 gap-6 sm:grid-cols-2">
+<div>
+<label class="block text-sm font-medium text-subtext-dark" for="name">Name</label>
+<div class="mt-1">
+<input class="block w-full rounded-md border-border-dark bg-gray-800/50 shadow-sm focus:border-primary focus:ring-primary" id="name" name="name" required="" type="text"/>
+</div>
+<p class="mt-1 text-sm text-red-500" id="name-error" style="display: none;">Name is a required field.</p>
+</div>
+<div>
+<label class="block text-sm font-medium text-subtext-dark" for="email">Email</label>
+<div class="mt-1">
+<input class="block w-full rounded-md border-border-dark bg-gray-800/50 shadow-sm focus:border-primary focus:ring-primary" id="email" name="email" required="" type="email"/>
+</div>
+<p class="mt-1 text-sm text-red-500" id="email-error" style="display: none;">Please enter a valid email address.</p>
+</div>
+</div>
+<div class="mt-6">
+<label class="block text-sm font-medium text-subtext-dark" for="subject">Subject</label>
+<div class="mt-1">
+<input class="block w-full rounded-md border-border-dark bg-gray-800/50 shadow-sm focus:border-primary focus:ring-primary" id="subject" name="subject" required="" type="text"/>
+</div>
+<p class="mt-1 text-sm text-red-500" id="subject-error" style="display: none;">Subject is a required field.</p>
+</div>
+<div class="mt-6">
+<label class="block text-sm font-medium text-subtext-dark" for="message">Message</label>
+<div class="mt-1">
+<textarea class="block w-full rounded-md border-border-dark bg-gray-800/50 shadow-sm focus:border-primary focus:ring-primary" id="message" maxlength="500" name="message" required="" rows="4"></textarea>
+</div>
+<p class="mt-1 text-sm text-red-500" id="message-error" style="display: none;">Message is required and must be under 500 characters.</p>
+</div>
+<div class="mt-8 text-center">
+<button class="ripple-btn inline-flex items-center justify-center rounded-lg bg-primary py-3 px-6 font-medium text-white shadow-lg shadow-indigo-500/20 transition-all duration-300 hover:bg-indigo-700 relative overflow-hidden isolate" type="submit"> Send Message </button>
+</div>
+</form>
 </section>
 </main>
 <footer class="mt-24 md:mt-32 pt-8 border-t border-border-dark text-center text-sm text-subtext-dark">
@@ -347,6 +379,71 @@
             } else {
                 backToTopButton.classList.add('opacity-0', 'scale-90');
                 backToTopButton.classList.remove('opacity-100', 'scale-100');
+            }
+        });
+        // --- Form Validation ---
+        const form = document.getElementById('contactForm');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+        const subjectInput = document.getElementById('subject');
+        const messageInput = document.getElementById('message');
+        const nameError = document.getElementById('name-error');
+        const emailError = document.getElementById('email-error');
+        const subjectError = document.getElementById('subject-error');
+        const messageError = document.getElementById('message-error');
+        form.addEventListener('submit', function(event) {
+            event.preventDefault();
+            let isValid = true;
+            // Validate Name
+            if (nameInput.value.trim() === '') {
+                nameError.style.display = 'block';
+                nameInput.classList.add('border-red-500');
+                nameInput.classList.remove('border-border-dark');
+                isValid = false;
+            } else {
+                nameError.style.display = 'none';
+                nameInput.classList.remove('border-red-500');
+                nameInput.classList.add('border-border-dark');
+            }
+            // Validate Email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(emailInput.value)) {
+                emailError.style.display = 'block';
+                emailInput.classList.add('border-red-500');
+                emailInput.classList.remove('border-border-dark');
+                isValid = false;
+            } else {
+                emailError.style.display = 'none';
+                emailInput.classList.remove('border-red-500');
+                emailInput.classList.add('border-border-dark');
+            }
+            // Validate Subject
+            if (subjectInput.value.trim() === '') {
+                subjectError.style.display = 'block';
+                subjectInput.classList.add('border-red-500');
+                subjectInput.classList.remove('border-border-dark');
+                isValid = false;
+            } else {
+                subjectError.style.display = 'none';
+                subjectInput.classList.remove('border-red-500');
+                subjectInput.classList.add('border-border-dark');
+            }
+            // Validate Message
+            if (messageInput.value.trim() === '' || messageInput.value.length > 500) {
+                messageError.style.display = 'block';
+                messageInput.classList.add('border-red-500');
+                messageInput.classList.remove('border-border-dark');
+                isValid = false;
+            } else {
+                messageError.style.display = 'none';
+                messageInput.classList.remove('border-red-500');
+                messageInput.classList.add('border-border-dark');
+            }
+            if (isValid) {
+                // If the form is valid, you can submit it here or show a success message.
+                // For this example, we'll just log to console and reset the form.
+                console.log('Form submitted successfully!');
+                form.reset();
             }
         });
     });
